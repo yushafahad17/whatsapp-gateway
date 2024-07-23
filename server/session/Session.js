@@ -84,6 +84,9 @@ class ConnectionSession extends SessionDatabase {
 
       if (update.isNewLogin) {
         await this.createSessionDB(session_name, client.authState.creds.me.id.split(":")[0]);
+        if (!fs.existsSync(this.logPath)) {
+          fs.mkdirSync(this.logPath, { recursive: true });
+        }
         let files = `${this.logPath}/${session_name}.txt`;
         if (fs.existsSync(files)) {
           var readLog = fs.readFileSync(files, "utf8");
